@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IUnidadMedida } from 'src/app/Interfaces/iunidadmedida';
 import { UnidadmedidaService } from '../../Services/unidadmedida.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,44 +10,63 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './nuevaunidadmedida.component.html',
-  styleUrl: './nuevaunidadmedida.component.scss'
+  styleUrls: ['./nuevaunidadmedida.component.scss'] // Corregido aquí
 })
 export class NuevaunidadmedidaComponent implements OnInit {
   titulo = 'Nueva Unidad de Medida';
   frm_UnidadMedida: FormGroup;
+  idUnidadMedida: number = 0;
 
-  idUnidadMedida = 0;
   constructor(
     private unidadService: UnidadmedidaService,
-    private navegacion: Router
+    private navegacion: Router,
+    private ruta: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.idUnidadMedida = parseInt(this.ruta.snapshot.paramMap.get('id') || '0');
     this.frm_UnidadMedida = new FormGroup({
       Detalle: new FormControl('', [Validators.required]),
       Tipo: new FormControl('', [Validators.required])
     });
+
+    if (this.idUnidadMedida > 0) {
+      this.unidadService.uno(this.idUnidadMedida).subscribe((unidad) => {
+        this.frm_UnidadMedida.patchValue({
+          Detalle: unidad.Detalle,
+          Tipo: unidad.Tipo
+        });
+        this.titulo = 'Actualizar Unidad de Medida';
+      });
+    }
   }
 
-  cambio(objetoSleect: any) {
-    this.frm_UnidadMedida.get('Tipo')?.setValue(objetoSleect.target.value);
+  cambio(objetoSelect: any): void {
+    this.frm_UnidadMedida.get('Tipo')?.setValue(objetoSelect.target.value);
   }
-  grabar() {
+
+  limpiarcaja(): void {
+    alert('Limpiar Caja');
+  }
+
+  grabar(): void {
     let unidadmedida: IUnidadMedida = {
       Detalle: this.frm_UnidadMedida.get('Detalle')?.value,
       Tipo: this.frm_UnidadMedida.get('Tipo')?.value
     };
-    if (this.idUnidadMedida == 0) {
-      this.unidadService.insertar(unidadmedida).subscribe((x) => {
-        Swal.fire('Exito', 'La unidad de medida se grabo con exito', 'success');
+
+    if (this.idUnidadMedida === 0) {
+      this.unidadService.insertar(unidadmedida).subscribe(() => {
+        Swal.fire('Éxito', 'La unidad de medida se grabó con éxito', 'success');
         this.navegacion.navigate(['/unidadmedida']);
       });
     } else {
       unidadmedida.idUnidad_Medida = this.idUnidadMedida;
-      this.unidadService.actualizar(unidadmedida).subscribe((x) => {
-        Swal.fire('Exito', 'La unidad de medida se modifico con exito', 'success');
+      this.unidadService.actualizar(unidadmedida).subscribe(() => {
+        Swal.fire('Éxito', 'La unidad de medida se modificó con éxito', 'success');
         this.navegacion.navigate(['/unidadmedida']);
       });
     }
   }
 }
+

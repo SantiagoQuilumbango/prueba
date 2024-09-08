@@ -18,6 +18,10 @@ export class ProductosComponent implements OnInit {
   constructor(private prodcutoServicio: ProductoService) {}
 
   ngOnInit(): void {
+    //6
+    this.prodcutoServicio.todos().subscribe((data: IProducto[]) => {
+      this.listaproductos = data;
+    });
     this.cargaproductos();
   }
 
@@ -27,8 +31,15 @@ export class ProductosComponent implements OnInit {
       console.log(data);
     });
   }
-  trackByFn() {}
+  trackByFn(index: number, item: any): any {
+    return item.id; // Suponiendo que cada producto tiene un ID único
+}
 
+/* cargatabla() {
+  this.facturaServicio.todos().subscribe((data) => {
+    this.listafacturas = data;
+  });
+}*/
   eliminar(idProductos) {
     Swal.fire({
       title: '¿Estás seguro?',

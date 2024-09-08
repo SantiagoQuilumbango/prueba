@@ -19,7 +19,21 @@ export class UnidadmedidaComponent implements OnInit {
     this.unidadServicio.todos().subscribe((data) => {
       this.listaunidades = data;
     });
+    //2
+    this.cargatabla();
   }
-
-  eliminar(idUnidad_Medida: number) {}
+  //1
+  cargatabla() {
+    this.unidadServicio.todos().subscribe((data) => {
+      this.listaunidades = data;
+    });
+  }
+  //eliminar(idFactura) {}
+  //?
+  eliminar(idUnidad_Medida:number) {
+    this.unidadServicio.eliminar(idUnidad_Medida).subscribe((data) => {
+      this.cargatabla();
+    });
+  }
 }
+

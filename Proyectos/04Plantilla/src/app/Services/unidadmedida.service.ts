@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UnidadmedidaService {
-  apiurl = 'http://localhost/sexto/Proyectos/03MVC/controllers/unidadmedida.controller.php?op=';
+  apiurl = 'http://localhost/s6t1/sexto/Proyectos/03MVC/controllers/unidadmedida.controller.php?op=';
 
   constructor(private lector: HttpClient) {}
 
@@ -29,7 +29,8 @@ export class UnidadmedidaService {
 
   insertar(unidad: IUnidadMedida): Observable<string> {
     const formData = new FormData();
-    formData.append('Descripcion', unidad.Detalle);
+    //formData.append('Descripcion', unidad.Detalle);
+    formData.append('Detalle', unidad.Detalle);
     formData.append('Tipo', unidad.Tipo.toString());
     return this.lector.post<string>(this.apiurl + 'insertar', formData);
   }
@@ -37,7 +38,7 @@ export class UnidadmedidaService {
   actualizar(unidad: IUnidadMedida): Observable<string> {
     const formData = new FormData();
     formData.append('idUnidad', unidad.idUnidad_Medida.toString());
-    formData.append('Descripcion', unidad.Detalle);
+    formData.append('Detalle', unidad.Detalle);
     formData.append('Tipo', unidad.Tipo.toString());
     return this.lector.post<string>(this.apiurl + 'actualizar', formData);
   }
