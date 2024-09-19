@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-sm-12">
+      <app-card cardTitle="Lista de Proveedores" blockClass="pc-component">
+        <div class="col-md-12 col-xl-8">
+          <h5 class="mb-3">
+            <a href="/nuevaunidadmedidas" class="btn btn-outline-dark">Nuevo Unidad de Medida</a>
+          </h5>
+          <div class="card tbl-card">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>nombre</th>
+                    <th>descripcion</th>
+                    <th>precio</th>
+                    <th>stock</th>
+               
+  
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (unidadmedida of listaunidades; track $index) {
+                    <tr>
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ unidadmedida.nombre }}</td>
+                      <td>{{ unidadmedida.descripcion }}</td>
+                      <td>{{ unidadmedida.precio }}</td>
+                      <td>{{ unidadmedida.stock }}</td>
+                      <!--<td>{{ unidadmedida.Tipo == '0' ? 'Presentacion': unidadmedida.Tipo == 1 ? 'Unidad de Medida': 'Factor de Conversion' }}</td>-->
+                     
+  
+                      <td>
+                        <button
+                          type="button"
+                          class="btn btn-outline-success"
+                          [routerLink]="['/editarunidadmedidas/', unidadmedida.producto_id ]"
+                        >
+                          Editar
+                        </button>
+                        <button (click)="eliminar(unidadmedida.producto_id )" type="button" class="btn btn-outline-danger">
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>

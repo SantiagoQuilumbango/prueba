@@ -11,8 +11,11 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Detalle</th>
-                  <th>Tipo</th>
+                  <th>nombre</th>
+                  <th>apellido</th>
+                  <th>email</th>
+                  <th>telefono</th>
+             
 
                   <th></th>
                 </tr>
@@ -21,25 +24,22 @@
                 @for (unidadmedida of listaunidades; track $index) {
                   <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ unidadmedida.Detalle }}</td>
+                    <td>{{ unidadmedida.nombre }}</td>
+                    <td>{{ unidadmedida.apellido }}</td>
+                    <td>{{ unidadmedida.email }}</td>
+                    <td>{{ unidadmedida.telefono }}</td>
                     <!--<td>{{ unidadmedida.Tipo == '0' ? 'Presentacion': unidadmedida.Tipo == 1 ? 'Unidad de Medida': 'Factor de Conversion' }}</td>-->
-                    @if (unidadmedida.Tipo == 0) {
-                      <td>Presentacion</td>
-                    } @else if (unidadmedida.Tipo == 1) {
-                      <td>Unidad de Medida</td>
-                    } @else {
-                      <td>Factor de Conversion</td>
-                    }
+                   
 
                     <td>
                       <button
                         type="button"
                         class="btn btn-outline-success"
-                        [routerLink]="['/editarunidadmedida/', unidadmedida.idUnidad_Medida]"
+                        [routerLink]="['/editarunidadmedida/', unidadmedida.cliente_id]"
                       >
                         Editar
                       </button>
-                      <button (click)="eliminar(unidadmedida.idUnidad_Medida)" type="button" class="btn btn-outline-danger">
+                      <button (click)="eliminar(unidadmedida.cliente_id)" type="button" class="btn btn-outline-danger">
                         Eliminar
                       </button>
                     </td>

@@ -72,31 +72,31 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: 'proveedores',
-        title: 'Proveedores',
+        title: '',
         type: 'item',
         classes: 'nav-item',
-        url: '/proveedores',
+        url: '',
         icon: ''
       },
       {
         id: 'color',
-        title: 'Clientes',
+        title: '',
         type: 'item',
         classes: 'nav-item',
-        url: '/clientes',
+        url: '',
         icon: 'bg-colors'
       },
       {
         id: 'tabler',
-        title: 'Facturas',
+        title: '',
         type: 'item',
         classes: 'nav-item',
-        url: '/facturas',
+        url: '',
         icon: 'ant-design'
       }, //
       {
         id: 'tabler',
-        title: 'Unidad de Medida',
+        title: 'Clientes',
         type: 'item',
         classes: 'nav-item',
         url: '/unidadmedida',
@@ -107,7 +107,7 @@ export const NavigationItems: NavigationItem[] = [
         title: 'Productos',
         type: 'item',
         classes: 'nav-item',
-        url: '/productos',
+        url: '/unidadmedidas',
         icon: 'ant-design'
       }
     ]

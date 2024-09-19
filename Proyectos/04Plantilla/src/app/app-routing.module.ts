@@ -35,7 +35,7 @@ const routes: Routes = [
         loadComponent: () => import('./demo/other/sample-page/sample-page.component')
       },
       {
-        path: 'proveedores',
+        path: '',
         loadComponent: () => import('./proveedores/proveedores.component').then((m) => m.ProveedoresComponent),
         //canActivate: [usuariosGuardGuard]
       },
@@ -50,7 +50,7 @@ const routes: Routes = [
         //canActivate: [usuariosGuardGuard]
       },
       {
-        path: 'clientes',
+        path: '',
         loadComponent: () => import('./clientes/clientes.component').then((m) => m.ClientesComponent),
         //canActivate: [usuariosGuardGuard]
       },
@@ -74,12 +74,29 @@ const routes: Routes = [
         //canActivate: [usuariosGuardGuard]
       },
       {
-        path: 'facturas',
+        path: '',
         loadComponent: () => import('./facturas/facturas.component').then((m) => m.FacturasComponent)
       },
       {
         path: 'unidadmedida',
         loadComponent: () => import('./unidadmedida/unidadmedida.component').then((m) => m.UnidadmedidaComponent),
+        //canActivate: [usuariosGuardGuard]
+      },
+      {
+        path: 'unidadmedidas',
+        loadComponent: () => import('./unidadmedida/unidadmedidas.component').then((m) => m.UnidadmedidasComponent),
+        //canActivate: [usuariosGuardGuard]
+      },
+      {
+        path: 'nuevaunidadmedidas',
+        loadComponent: () =>
+          import('./unidadmedida/nuevaunidadmedida/nuevaunidadmedidas.component').then((m) => m.NuevaunidadmedidasComponent),
+        //canActivate: [usuariosGuardGuard]
+      },
+      {
+        path: 'editarunidadmedidas/:id',
+        loadComponent: () =>
+          import('./unidadmedida/nuevaunidadmedida/nuevaunidadmedidas.component').then((m) => m.NuevaunidadmedidasComponent),
         //canActivate: [usuariosGuardGuard]
       },
       {

@@ -1,0 +1,63 @@
+<div class="card my-5">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <h3 class="mb-0">
+          {{ titulo }}
+        </h3>
+      </div>
+      <form [formGroup]="frm_UnidadMedida" (ngSubmit)="grabar()">
+        <div class="row">
+          <div class="form-group mb-3">
+            <label class="form-label" for="Cedula">nombre</label>
+            <input formControlName="nombre" type="text" class="form-control" id="nombre" placprecioolder="Ingrese el nombre" />
+            @if (frm_UnidadMedida.get('nombre').invalid && frm_UnidadMedida.get('nombre').touched) {
+              @if (frm_UnidadMedida.get('nombre').hasError('required')) {
+                <div>
+                  <small style="color: red">Los nombres son requeridos</small>
+                </div>
+              }
+            }
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label" for="descripcion">descripcion</label>
+            <input formControlName="descripcion" type="text" class="form-control" id="descripcion" placprecioolder="Ingrese el descripcion" />
+            @if (frm_UnidadMedida.get('descripcion').invalid && frm_UnidadMedida.get('descripcion').touched) {
+              @if (frm_UnidadMedida.get('descripcion').hasError('required')) {
+                <div>
+                  <small style="color: red">Los nombres son requeridos</small>
+                </div>
+              }
+            }
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label" for="Cedula">precio</label>
+            <input formControlName="precio" type="text" class="form-control" id="precio" placprecioolder="Ingrese el precio" />
+            @if (frm_UnidadMedida.get('precio').invalid && frm_UnidadMedida.get('precio').touched) {
+              @if (frm_UnidadMedida.get('precio').hasError('required')) {
+                <div>
+                  <small style="color: red">Los nombres son requeridos</small>
+                </div>
+              }
+            }
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label" for="stock">stock</label>
+            <input formControlName="stock" type="text" class="form-control" id="stock" placprecioolder="Ingrese el stock" />
+            @if (frm_UnidadMedida.get('stock').invalid && frm_UnidadMedida.get('stock').touched) {
+              @if (frm_UnidadMedida.get('stock').hasError('required')) {
+                <div>
+                  <small style="color: red">Los nombres son requeridos</small>
+                </div>
+              }
+            }
+          </div>
+          
+  
+          <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-primary" [disabled]="frm_UnidadMedida.invalid">Grabar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

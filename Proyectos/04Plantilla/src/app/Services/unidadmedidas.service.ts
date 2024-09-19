@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IUnidadMedida } from '../Interfaces/iunidadmedida';
+import { IUnidadMedida } from '../Interfaces/iunidadmedidas';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnidadmedidaService {
-  apiurl = 'http://localhost/tarea1s6/Proyectos/03MVC/controllers/unidadmedida.controller.php?op=';
+  apiurl = 'http://localhost/tarea1s6/Proyectos/03MVC/controllers/unidadmedidas.controller.php?op=';
 
   constructor(private lector: HttpClient) {}
 
@@ -31,20 +31,20 @@ export class UnidadmedidaService {
     const formData = new FormData();
     //formData.append('Descripcion', unidad.nombre);
     formData.append('nombre', unidad.nombre);
-    formData.append('apellido', unidad.apellido);
-    formData.append('email', unidad.email);
-    formData.append('telefono', unidad.telefono);
+    formData.append('descripcion', unidad.descripcion);
+    formData.append('precio', unidad.precio);
+    formData.append('stock', unidad.stock);
     
     return this.lector.post<string>(this.apiurl + 'insertar', formData);
   }
 
   actualizar(unidad: IUnidadMedida): Observable<string> {
     const formData = new FormData();
-    formData.append('idUnidad', unidad.cliente_id.toString());
+    formData.append('idUnidad', unidad.producto_id .toString());
     formData.append('nombre', unidad.nombre);
-    formData.append('apellido', unidad.apellido);
-    formData.append('email', unidad.email);
-    formData.append('telefono', unidad.telefono);
+    formData.append('descripcion', unidad.descripcion);
+    formData.append('precio', unidad.precio);
+    formData.append('stock', unidad.stock);
    
     return this.lector.post<string>(this.apiurl + 'actualizar', formData);
   }

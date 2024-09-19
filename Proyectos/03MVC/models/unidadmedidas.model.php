@@ -4,33 +4,33 @@ require_once('../config/config.php');
 
 class UnidadDeMedida
 {
-    public function todos() // select * from clientes
+    public function todos() // select * from productos
     {
         $con = new ClaseConectar();
         $con = $con->ProcedimientoParaConectar();
-        $cadena = "SELECT * FROM `clientes`";
+        $cadena = "SELECT * FROM `productos`";
         $datos = mysqli_query($con, $cadena);
         $con->close();
         return $datos;
     }
 
-    public function uno($idUnidad) // select * from clientes where id = $idUnidad
+    public function uno($idUnidad) // select * from productos where id = $idUnidad
     {
         $con = new ClaseConectar();
         $con = $con->ProcedimientoParaConectar();
-        $cadena = "SELECT * FROM `clientes` WHERE `cliente_id` = $idUnidad";
+        $cadena = "SELECT * FROM `productos` WHERE `producto_id ` = $idUnidad";
         $datos = mysqli_query($con, $cadena);
         $con->close();
         return $datos;
     }
 
-    public function insertar($nombre, $apellido, $email, $telefono) // insert into clientes (...) values (...)
+    public function insertar($nombre, $descripcion, $precio, $stock) // insert into productos (...) values (...)
     {
         try {
             $con = new ClaseConectar();
             $con = $con->ProcedimientoParaConectar();
-            $cadena = "INSERT INTO `clientes`( `nombre`, `apellido`, `email`, `telefono`) 
-                       VALUES ( '$nombre', '$apellido', '$email', '$telefono')";
+            $cadena = "INSERT INTO `productos`( `nombre`, `descripcion`, `precio`, `stock`) 
+                       VALUES ( '$nombre', '$descripcion', '$precio', '$stock')";
             if (mysqli_query($con, $cadena)) {
                 return $con->insert_id; // Retorna el ID insertado
             } else {
@@ -43,19 +43,19 @@ class UnidadDeMedida
         }
     }
 
-    public function actualizar($idUnidad,  $nombre, $apellido, $email, $telefono) // update clientes set ... where id = $idUnidad
+    public function actualizar($idUnidad,  $nombre, $descripcion, $precio, $stock) // update productos set ... where id = $idUnidad
     {
         try {
             $con = new ClaseConectar();
             $con = $con->ProcedimientoParaConectar();
-            $cadena = "UPDATE `clientes` SET 
+            $cadena = "UPDATE `productos` SET 
                       
                        `nombre`='$nombre',
-                       `apellido`='$apellido',
-                       `email`='$email',
-                       `telefono`='$telefono'
+                       `descripcion`='$descripcion',
+                       `precio`='$precio',
+                       `stock`='$stock'
                        
-                       WHERE `cliente_id` = $idUnidad";
+                       WHERE `producto_id ` = $idUnidad";
             if (mysqli_query($con, $cadena)) {
                 return $idUnidad; // Retorna el ID actualizado
             } else {
@@ -68,12 +68,12 @@ class UnidadDeMedida
         }
     }
 
-    public function eliminar($idUnidad) // delete from clientes where id = $idUnidad
+    public function eliminar($idUnidad) // delete from productos where id = $idUnidad
     {
         try {
             $con = new ClaseConectar();
             $con = $con->ProcedimientoParaConectar();
-            $cadena = "DELETE FROM `clientes` WHERE `cliente_id`= $idUnidad";
+            $cadena = "DELETE FROM `productos` WHERE `producto_id `= $idUnidad";
             if (mysqli_query($con, $cadena)) {
                 return 1; // Éxito
             } else {

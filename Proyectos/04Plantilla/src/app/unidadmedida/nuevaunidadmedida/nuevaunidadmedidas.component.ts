@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IUnidadMedida } from 'src/app/Interfaces/iunidadmedida';
-import { UnidadmedidaService } from '../../Services/unidadmedida.service';
+import { IUnidadMedida } from 'src/app/Interfaces/iunidadmedidas';
+import { UnidadmedidaService } from '../../Services/unidadmedidas.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-nuevaunidadmedida',
+  selector: 'app-nuevaunidadmedidas',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule],
-  templateUrl: './nuevaunidadmedida.component.html',
-  styleUrls: ['./nuevaunidadmedida.component.scss'] // Corregido aquí
+  templateUrl: './nuevaunidadmedidas.component.html',
+  styleUrls: ['./nuevaunidadmedidas.component.scss'] // Corregido aquí
 })
-export class NuevaunidadmedidaComponent implements OnInit {
+export class NuevaunidadmedidasComponent implements OnInit {
   titulo = 'Nueva Unidad de Medida';
   frm_UnidadMedida: FormGroup;
   idUnidadMedida: number = 0;
@@ -27,9 +27,9 @@ export class NuevaunidadmedidaComponent implements OnInit {
     this.idUnidadMedida = parseInt(this.ruta.snapshot.paramMap.get('id') || '0');
     this.frm_UnidadMedida = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
-      apellido: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      telefono: new FormControl('', [Validators.required])
+      descripcion: new FormControl('', [Validators.required]),
+      precio: new FormControl('', [Validators.required]),
+      stock: new FormControl('', [Validators.required])
 
     });
 
@@ -37,9 +37,9 @@ export class NuevaunidadmedidaComponent implements OnInit {
       this.unidadService.uno(this.idUnidadMedida).subscribe((unidad) => {
         this.frm_UnidadMedida.patchValue({
           nombre: unidad.nombre,
-          apellido: unidad.apellido,
-          email: unidad.email,
-          telefono: unidad.telefono
+          descripcion: unidad.descripcion,
+          precio: unidad.precio,
+          stock: unidad.stock
     
         });
         this.titulo = 'Actualizar Unidad de Medida';
@@ -56,9 +56,9 @@ export class NuevaunidadmedidaComponent implements OnInit {
   grabar(): void {
     let unidadmedida: IUnidadMedida = {
       nombre: this.frm_UnidadMedida.get('nombre')?.value,
-      apellido: this.frm_UnidadMedida.get('apellido')?.value,
-      email: this.frm_UnidadMedida.get('email')?.value,
-      telefono: this.frm_UnidadMedida.get('telefono')?.value
+      descripcion: this.frm_UnidadMedida.get('descripcion')?.value,
+      precio: this.frm_UnidadMedida.get('precio')?.value,
+      stock: this.frm_UnidadMedida.get('stock')?.value
     
     };
 
@@ -68,7 +68,7 @@ export class NuevaunidadmedidaComponent implements OnInit {
         this.navegacion.navigate(['/unidadmedida']);
       });
     } else {
-      unidadmedida.cliente_id = this.idUnidadMedida;
+      unidadmedida.producto_id  = this.idUnidadMedida;
       this.unidadService.actualizar(unidadmedida).subscribe(() => {
         Swal.fire('Éxito', 'La unidad de medida se modificó con éxito', 'success');
         this.navegacion.navigate(['/unidadmedida']);
@@ -76,4 +76,3 @@ export class NuevaunidadmedidaComponent implements OnInit {
     }
   }
 }
-

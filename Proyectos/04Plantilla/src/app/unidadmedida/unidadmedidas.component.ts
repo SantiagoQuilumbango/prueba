@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { IUnidadMedida } from '../Interfaces/iunidadmedida';
+import { IUnidadMedida } from '../Interfaces/iunidadmedidas';
 import { RouterLink } from '@angular/router';
 import { SharedModule } from '../theme/shared/shared.module';
-import { UnidadmedidaService } from '../Services/unidadmedida.service';
+import { UnidadmedidaService } from '../Services/unidadmedidas.service';
 
 @Component({
   selector: 'app-unidadmedida',
   standalone: true,
   imports: [RouterLink, SharedModule],
-  templateUrl: './unidadmedida.component.html',
-  styleUrl: './unidadmedida.component.scss'
+  templateUrl: './unidadmedidas.component.html',
+  styleUrl: './unidadmedidas.component.scss'
 })
-export class UnidadmedidaComponent implements OnInit {
+export class UnidadmedidasComponent implements OnInit {
   listaunidades: IUnidadMedida[] = [];
 
   constructor(private unidadServicio: UnidadmedidaService) {}
@@ -30,10 +30,9 @@ export class UnidadmedidaComponent implements OnInit {
   }
   //eliminar(idFactura) {}
   //?
-  eliminar(cliente_id:number) {
-    this.unidadServicio.eliminar(cliente_id).subscribe((data) => {
+  eliminar(producto_id :number) {
+    this.unidadServicio.eliminar(producto_id ).subscribe((data) => {
       this.cargatabla();
     });
   }
 }
-

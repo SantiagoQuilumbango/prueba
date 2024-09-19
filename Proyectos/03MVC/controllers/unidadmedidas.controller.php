@@ -10,7 +10,7 @@ if ($method == "OPTIONS") {
 
 // Controlador de Unidad de Medida Tienda Cel@g
 
-require_once('../models/unidadmedida.model.php');
+require_once('../models/unidadmedidas.model.php');
 error_reporting(0);
 $unidad = new UnidadDeMedida;
 
@@ -38,7 +38,7 @@ switch ($_GET["op"]) {
 
     case 'insertar': // Procedimiento para insertar una nueva unidad de medida
         //if (!isset($_POST["Descripcion"]) || !isset($_POST["Tipo"])) {
-        if (!isset($_POST["nombre"]) || !isset($_POST["apellido"]) || !isset($_POST["email"]) || !isset($_POST["telefono"])) {
+        if (!isset($_POST["nombre"]) || !isset($_POST["descripcion"]) || !isset($_POST["precio"]) || !isset($_POST["stock"])) {
             echo json_encode(["error" => "Missing required parameters."]);
             exit();
         }
@@ -46,19 +46,19 @@ switch ($_GET["op"]) {
         //$Nombre = $_POST["Nombre"];
         //$Descripcion = $_POST["Descripcion"];
         $nombre = $_POST["nombre"];
-        $apellido = $_POST["apellido"];
-        $email = $_POST["email"];
-        $telefono = $_POST["telefono"];
+        $descripcion = $_POST["descripcion"];
+        $precio = $_POST["precio"];
+        $stock = $_POST["stock"];
   
 
         $datos = array();
         //$datos = $unidad->insertar($Descripcion, $Tipo);
-        $datos = $unidad->insertar($nombre, $apellido, $email, $telefono);
+        $datos = $unidad->insertar($nombre, $descripcion, $precio, $stock);
         echo json_encode($datos);
         break;
 
     case 'actualizar': // Procedimiento para actualizar una unidad de medida existente
-        if (!isset($_POST["idUnidad"]) || !isset($_POST["nombre"]) || !isset($_POST["apellido"]) || !isset($_POST["email"]) || !isset($_POST["telefono"])) {
+        if (!isset($_POST["idUnidad"]) || !isset($_POST["nombre"]) || !isset($_POST["descripcion"]) || !isset($_POST["precio"]) || !isset($_POST["stock"])) {
             echo json_encode(["error" => "Missing required parameters."]);
             exit();
         }
@@ -66,13 +66,13 @@ switch ($_GET["op"]) {
         $idUnidad = intval($_POST["idUnidad"]);
         //$Nombre = $_POST["Nombre"];
         $nombre = $_POST["nombre"];
-        $apellido = $_POST["apellido"];
-        $email = $_POST["email"];
-        $telefono = $_POST["telefono"];
+        $descripcion = $_POST["descripcion"];
+        $precio = $_POST["precio"];
+        $stock = $_POST["stock"];
        
 
         $datos = array();
-        $datos = $unidad->actualizar($idUnidad,  $nombre, $apellido, $email, $telefono);
+        $datos = $unidad->actualizar($idUnidad,  $nombre, $descripcion, $precio, $stock);
         echo json_encode($datos);
         break;
 

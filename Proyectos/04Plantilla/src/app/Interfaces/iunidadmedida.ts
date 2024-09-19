@@ -1,5 +1,8 @@
 export interface IUnidadMedida {
-  idUnidad_Medida?: number;
-  Detalle: string;
-  Tipo: number;
+  cliente_id?: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  
 }

@@ -12,15 +12,15 @@ class Producto
        p.Codigo_Barras, 
        p.Nombre_Producto, 
        p.Graba_IVA, 
-       u.Detalle as Unidad_Medida, 
-       i.Detalle as IVA_Detalle, 
+       u.nombre as clientes, 
+       i.nombre as IVA_nombre, 
        k.Cantidad, 
        k.Fecha_Transaccion, 
        k.Valor_Compra, 
        k.Valor_Venta, 
        k.Tipo_Transaccion
 FROM `Productos` p
-INNER JOIN `Unidad_Medida` u ON p.idProductos = u.idUnidad_Medida
+INNER JOIN `clientes` u ON p.idProductos = u.cliente_id
 INNER JOIN `IVA` i ON p.Graba_IVA = i.idIVA
 INNER JOIN `Kardex` k ON p.idProductos = k.Productos_idProductos
 where k.`Estado` = 1
@@ -34,9 +34,9 @@ where k.`Estado` = 1
     {
         $con = new ClaseConectar();
         $con = $con->ProcedimientoParaConectar();
-        $cadena = "SELECT p.*, u.Detalle as Unidad_Medida, i.Detalle as IVA_Detalle 
+        $cadena = "SELECT p.*, u.nombre as clientes, i.nombre as IVA_nombre 
                    FROM `Productos` p 
-                   INNER JOIN Unidad_Medida u ON p.idProductos = u.idUnidad_Medida 
+                   INNER JOIN clientes u ON p.idProductos = u.cliente_id 
                    INNER JOIN IVA i ON p.Graba_IVA = i.idIVA 
                    WHERE p.idProductos = $idProductos";
         $datos = mysqli_query($con, $cadena);
@@ -44,7 +44,7 @@ where k.`Estado` = 1
         return $datos;
     }
 
-    public function insertar($Codigo_Barras, $Nombre_Producto, $Graba_IVA, $Unidad_Medida_idUnidad_Medida, $IVA_idIVA, $Cantidad, $Valor_Compra, $Valor_Venta, $Proveedores_idProveedores)
+    public function insertar($Codigo_Barras, $Nombre_Producto, $Graba_IVA, $clientes_cliente_id, $IVA_idIVA, $Cantidad, $Valor_Compra, $Valor_Venta, $Proveedores_idProveedores)
     {
         try {
             $con = new ClaseConectar();
@@ -58,8 +58,8 @@ where k.`Estado` = 1
                 $productoId = $con->insert_id; // Obtener el ID del producto recién creado
 
                 // Insertar el Kardex asociado al producto
-                $cadenaKardex = "INSERT INTO `Kardex`(`Estado`, `Fecha_Transaccion`, `Cantidad`, `Valor_Compra`, `Valor_Venta`, `Unidad_Medida_idUnidad_Medida`, `Unidad_Medida_idUnidad_Medida1`, `Unidad_Medida_idUnidad_Medida2`, `IVA`, `IVA_idIVA`, `Proveedores_idProveedores`, `Productos_idProductos`, `Tipo_Transaccion`)
-                                 VALUES (1, NOW(), '$Cantidad', '$Valor_Compra', '$Valor_Venta', '$Unidad_Medida_idUnidad_Medida', '$Unidad_Medida_idUnidad_Medida', '$Unidad_Medida_idUnidad_Medida', '$IVA_idIVA', '$IVA_idIVA', '$Proveedores_idProveedores', '$productoId', 1)";
+                $cadenaKardex = "INSERT INTO `Kardex`(`Estado`, `Fecha_Transaccion`, `Cantidad`, `Valor_Compra`, `Valor_Venta`, `clientes_cliente_id`, `clientes_cliente_id1`, `clientes_cliente_id2`, `IVA`, `IVA_idIVA`, `Proveedores_idProveedores`, `Productos_idProductos`, `Tipo_Transaccion`)
+                                 VALUES (1, NOW(), '$Cantidad', '$Valor_Compra', '$Valor_Venta', '$clientes_cliente_id', '$clientes_cliente_id', '$clientes_cliente_id', '$IVA_idIVA', '$IVA_idIVA', '$Proveedores_idProveedores', '$productoId', 1)";
 
                 if (mysqli_query($con, $cadenaKardex)) {
                     return $productoId; // Éxito, devolver el ID del producto

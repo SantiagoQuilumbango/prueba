@@ -1,220 +1,108 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Sep 19, 2024 at 03:14 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
-TODO: Base de datos
--- MySQL Workbench Forward Engineering
-
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
--- -----------------------------------------------------
--- Schema Sexto
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema Sexto
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Sexto` DEFAULT CHARACTER SET utf8 ;
-USE `Sexto` ;
-
--- -----------------------------------------------------
--- Table `Sexto`.`Proveedores`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`Proveedores` (
-  `idProveedores` INT NOT NULL AUTO_INCREMENT,
-  `Nombre_Empresa` VARCHAR(45) NOT NULL,
-  `Direccion` TEXT NULL,
-  `Telefono` VARCHAR(17) NOT NULL,
-  `Contacto_Empresa` VARCHAR(45) NOT NULL COMMENT 'Campo para almacenar el nombre del empleado de la empresa para contactarse',
-  `Teleofno_Contacto` VARCHAR(17) NOT NULL COMMENT 'Campo para almacenar el numero de telefono del coantacto de la emprsa',
-  PRIMARY KEY (`idProveedores`))
-ENGINE = InnoDB;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
--- -----------------------------------------------------
--- Table `Sexto`.`Productos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`Productos` (
-  `idProductos` INT NOT NULL AUTO_INCREMENT,
-  `Codigo_Barras` TEXT NULL,
-  `Nombre_Producto` TEXT NOT NULL,
-  `Graba_IVA` INT NOT NULL COMMENT 'Campo para almacenar si el producto graba IVA o no\n1 = Graba IVA\n0 = No posee IVA',
-  PRIMARY KEY (`idProductos`))
-ENGINE = InnoDB;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Database: `gestion_ventas`
+--
 
--- -----------------------------------------------------
--- Table `Sexto`.`Unidad_Medida`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`Unidad_Medida` (
-  `idUnidad_Medida` INT NOT NULL AUTO_INCREMENT,
-  `Detalle` TEXT NULL,
-  `Tipo` INT NULL COMMENT '1 = Unidad de Medida Ej: Gramos, Litros, Kilos\n0 = Presentacion Ej: Caja, Unidad, Docena, Sixpack\n2 = Factor de Conversion Ej: Kilos a libras',
-  PRIMARY KEY (`idUnidad_Medida`))
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `clientes`
+--
 
--- -----------------------------------------------------
--- Table `Sexto`.`IVA`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`IVA` (
-  `idIVA` INT NOT NULL AUTO_INCREMENT,
-  `Detalle` VARCHAR(45) NOT NULL COMMENT '8%\n12%\n15%',
-  `Estado` INT NOT NULL COMMENT '1 = activo\n0 = inactivo',
-  `Valor` INT NULL COMMENT 'Campo para almacenar el valor en entero para realizar calculos',
-  PRIMARY KEY (`idIVA`))
-ENGINE = InnoDB;
+CREATE TABLE `clientes` (
+  `cliente_id` int(11) NOT NULL,
+  `nombre` text DEFAULT NULL,
+  `apellido` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
+  `telefono` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `clientes`
+--
 
--- -----------------------------------------------------
--- Table `Sexto`.`Kardex`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`Kardex` (
-  `idKardex` INT NOT NULL AUTO_INCREMENT,
-  `Estado` INT NOT NULL COMMENT 'Campo para almacenar el estado del kardex\n1 = activo\n0 = inactivo',
-  `Fecha_Transaccion` DATETIME NOT NULL,
-  `Cantidad` VARCHAR(45) NOT NULL,
-  `Valor_Compra` DECIMAL NOT NULL,
-  `Valor_Venta` DECIMAL NOT NULL,
-  `Unidad_Medida_idUnidad_Medida` INT NOT NULL,
-  `Unidad_Medida_idUnidad_Medida1` INT NOT NULL,
-  `Unidad_Medida_idUnidad_Medida2` INT NOT NULL,
-  `Valor_Ganacia` DECIMAL NULL,
-  `IVA` INT NOT NULL,
-  `IVA_idIVA` INT NOT NULL,
-  `Proveedores_idProveedores` INT NOT NULL,
-  `Productos_idProductos` INT NOT NULL,
-  `Tipo_Transaccion` INT NOT NULL COMMENT '1= entrada Ej: Compra\n0 = salida  Ej: Venta',
-  PRIMARY KEY (`idKardex`),
-  INDEX `fk_Kardex_Unidad_Medida_idx` (`Unidad_Medida_idUnidad_Medida` ASC) ,
-  INDEX `fk_Kardex_Unidad_Medida1_idx` (`Unidad_Medida_idUnidad_Medida1` ASC) ,
-  INDEX `fk_Kardex_Unidad_Medida2_idx` (`Unidad_Medida_idUnidad_Medida2` ASC) ,
-  INDEX `fk_Kardex_IVA1_idx` (`IVA_idIVA` ASC) ,
-  INDEX `fk_Kardex_Proveedores1_idx` (`Proveedores_idProveedores` ASC) ,
-  INDEX `fk_Kardex_Productos1_idx` (`Productos_idProductos` ASC) ,
-  CONSTRAINT `fk_Kardex_Unidad_Medida`
-    FOREIGN KEY (`Unidad_Medida_idUnidad_Medida`)
-    REFERENCES `Sexto`.`Unidad_Medida` (`idUnidad_Medida`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Kardex_Unidad_Medida1`
-    FOREIGN KEY (`Unidad_Medida_idUnidad_Medida1`)
-    REFERENCES `Sexto`.`Unidad_Medida` (`idUnidad_Medida`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Kardex_Unidad_Medida2`
-    FOREIGN KEY (`Unidad_Medida_idUnidad_Medida2`)
-    REFERENCES `Sexto`.`Unidad_Medida` (`idUnidad_Medida`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Kardex_IVA1`
-    FOREIGN KEY (`IVA_idIVA`)
-    REFERENCES `Sexto`.`IVA` (`idIVA`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Kardex_Proveedores1`
-    FOREIGN KEY (`Proveedores_idProveedores`)
-    REFERENCES `Sexto`.`Proveedores` (`idProveedores`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Kardex_Productos1`
-    FOREIGN KEY (`Productos_idProductos`)
-    REFERENCES `Sexto`.`Productos` (`idProductos`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+INSERT INTO `clientes` (`cliente_id`, `nombre`, `apellido`, `email`, `telefono`) VALUES
+(1, 'Juancho', 'Pérez', 'juan.perez@example.com', '987654321'),
+(5, 'Luis', 'Rodríguez', 'luis.rodriguez@example.com', '123987654');
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `Sexto`.`Clientes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`Clientes` (
-  `idClientes` INT NOT NULL AUTO_INCREMENT,
-  `Nombres` TEXT NOT NULL,
-  `Direccion` TEXT NOT NULL,
-  `Telefono` VARCHAR(45) NOT NULL,
-  `Cedula` VARCHAR(13) NOT NULL,
-  `Correo` TEXT NOT NULL,
-  PRIMARY KEY (`idClientes`))
-ENGINE = InnoDB;
+--
+-- Table structure for table `productos`
+--
 
+CREATE TABLE `productos` (
+  `producto_id` int(11) NOT NULL,
+  `nombre` text DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `precio` text DEFAULT NULL,
+  `stock` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- -----------------------------------------------------
--- Table `Sexto`.`Factura`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`Factura` (
-  `idFactura` INT NOT NULL AUTO_INCREMENT,
-  `Fecha` DATETIME NOT NULL,
-  `Sub_total` DECIMAL NOT NULL,
-  `Sub_total_iva` DECIMAL NOT NULL,
-  `Valor_IVA` DECIMAL NOT NULL,
-  `Clientes_idClientes` INT NOT NULL,
-  PRIMARY KEY (`idFactura`),
-  INDEX `fk_Factura_Clientes1_idx` (`Clientes_idClientes` ASC) ,
-  CONSTRAINT `fk_Factura_Clientes1`
-    FOREIGN KEY (`Clientes_idClientes`)
-    REFERENCES `Sexto`.`Clientes` (`idClientes`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+--
+-- Dumping data for table `productos`
+--
 
+INSERT INTO `productos` (`producto_id`, `nombre`, `descripcion`, `precio`, `stock`) VALUES
+(12, 'Laptop', 'Laptop de 15 pulgadas, 8GB RAM, 256GB SSD', '700.00', '50'),
+(13, 'Teléfono', 'Teléfono móvil con pantalla de 6 pulgadas', '300.00', '150'),
+(14, 'Monitor', 'Monitor Full HD de 24 pulgadas', '150.00', '75'),
+(15, 'Teclado', 'Teclado mecánico con retroiluminación RGB', '50.00', '100'),
+(16, 'Ratón', 'Ratón inalámbrico ergonómico', '25.00', '200'),
+(17, 'jo', 'k', 'p', 'n'),
+(18, 'j', 'j', 'o', 'o');
 
--- -----------------------------------------------------
--- Table `Sexto`.`Detalle_Factura`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Sexto`.`Detalle_Factura` (
-  `idDetalle_Factura` INT NOT NULL AUTO_INCREMENT,
-  `Cantidad` VARCHAR(45) NOT NULL,
-  `Factura_idFactura` INT NOT NULL,
-  `Kardex_idKardex` INT NOT NULL,
-  `Precio_Unitario` DECIMAL NOT NULL,
-  `Sub_Total_item` DECIMAL NOT NULL,
-  PRIMARY KEY (`idDetalle_Factura`),
-  INDEX `fk_Detalle_Factura_Factura1_idx` (`Factura_idFactura` ASC) ,
-  INDEX `fk_Detalle_Factura_Kardex1_idx` (`Kardex_idKardex` ASC) ,
-  CONSTRAINT `fk_Detalle_Factura_Factura1`
-    FOREIGN KEY (`Factura_idFactura`)
-    REFERENCES `Sexto`.`Factura` (`idFactura`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Detalle_Factura_Kardex1`
-    FOREIGN KEY (`Kardex_idKardex`)
-    REFERENCES `Sexto`.`Kardex` (`idKardex`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+--
+-- Indexes for dumped tables
+--
 
--- -----------------------------------------------------
--- Table `mydb`.`Roles`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Roles` (
-  `idRoles` INT NOT NULL AUTO_INCREMENT,
-  `Detalle` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idRoles`))
-ENGINE = InnoDB;
+--
+-- Indexes for table `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`cliente_id`);
 
+--
+-- Indexes for table `productos`
+--
+ALTER TABLE `productos`
+  ADD PRIMARY KEY (`producto_id`);
 
--- -----------------------------------------------------
--- Table `mydb`.`Usuarios`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Usuarios` (
-  `idUsuarios` INT NOT NULL AUTO_INCREMENT,
-  `Nombre_Usuario` VARCHAR(45) NOT NULL,
-  `Contrasenia` VARCHAR(45) NOT NULL,
-  `Estado` INT NOT NULL,
-  `Usuarioscol` VARCHAR(45) NULL,
-  `Roles_idRoles` INT NOT NULL,
-  PRIMARY KEY (`idUsuarios`),
-  INDEX `fk_Usuarios_Roles_idx` (`Roles_idRoles` ASC) ,
-  CONSTRAINT `fk_Usuarios_Roles`
-    FOREIGN KEY (`Roles_idRoles`)
-    REFERENCES `Roles` (`idRoles`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+--
+-- AUTO_INCREMENT for dumped tables
+--
 
+--
+-- AUTO_INCREMENT for table `clientes`
+--
+ALTER TABLE `clientes`
+  MODIFY `cliente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
+--
+-- AUTO_INCREMENT for table `productos`
+--
+ALTER TABLE `productos`
+  MODIFY `producto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+COMMIT;
 
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
